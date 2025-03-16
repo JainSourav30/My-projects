@@ -3,6 +3,7 @@ import { Signup } from './components/Signup'
 import { Signin } from './components/Signin'
 import { Dashboard } from './components/dashboard'
 import './App.css'
+import { Payment } from './components/Payment'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
             <Route path='/Signin' element={<Signin/>}/>
             <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path='/send' element={<send/>}/>
+            <Route path='/dashboard/payment' element={<Payment/>}/>
           </Routes>
         </BrowserRouter>
     </>
