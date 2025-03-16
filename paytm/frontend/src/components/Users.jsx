@@ -18,8 +18,8 @@ export function Users(){
             {users.map((user)=>{
                 const name = user.name;
                 const initial = name ? name.charAt(0).toUpperCase():"?";
-                return <div key={user.id} className="m-1 p-3 flex justify-between">
-                        <div className="flex justify-between  py-1">
+                return <div key={user.id} className="mx-3 p-3 rounded-md flex justify-between odd:bg-blue-200">
+                        <div className="flex justify-between text-gray-800 py-1">
                             <div className="w-9 h-9 px-4 rounded-full font-medium bg-slate-200 flex items-center justify-center">
                                 {initial}
                             </div>
@@ -28,7 +28,7 @@ export function Users(){
                             </div>
                         </div>
                         <div>
-                            <button className="bg-[#18181a] py-3 px-5 rounded-lg font-medium text-white">Send Money</button>
+                            <button className="bg-gray-800 py-3 px-5 rounded-lg font-medium text-white hover:bg-[#18181a] cursor-pointer">Send Money</button>
                         </div>
                     </div>
             })}
