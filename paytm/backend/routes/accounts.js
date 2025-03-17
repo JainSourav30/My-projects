@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 // Get account balance
 AccountRouter.get('/balance',authMiddleware,async (req,res)=>{
     try {
-        console.log("User ID from Token:", req.userid);
+        // console.log("User ID from Token:", req.userid);
         const account = await Account.findOne({ userId: req.userid });
 
         if (!account) {
@@ -28,7 +28,9 @@ AccountRouter.post('/transfer',authMiddleware,async(req,res)=>{
     session.startTransaction();
 
     const {amount , to} = req.body;
-    const sender = await Account.findOne({userid:req.userid}).session(session);
+    console.log(req.userid);
+    const sender = await Account.findOne({userId:req.userid}).session(session);
+    console.log(sender);
     if(!sender){
         await session.abortTransaction();
         return res.status(400).json({
@@ -42,15 +44,15 @@ AccountRouter.post('/transfer',authMiddleware,async(req,res)=>{
         })
     }
 
-    const reciever = await Account.findOne({userid:to}).session(session);
+    const reciever = await Account.findOne({userId:to}).session(session);
     if(!reciever){
         await session.abortTransaction();
         return res.status(400).json({
             message:"Invalid account details"
         })
     }
-    await Account.updateOne({userid:req.userid},{$inc:{balance: -amount}}).session(session);
-    await Account.updateOne({userid:to},{$inc:{balance: amount}}).session(session);
+    await Account.updateOne({userId:req.userid},{$inc:{balance: -amount}}).session(session);
+    await Account.updateOne({userId:to},{$inc:{balance: amount}}).session(session);
 
     await session.commitTransaction();
     res.status(200).json({

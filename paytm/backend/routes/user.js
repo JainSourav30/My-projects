@@ -36,7 +36,7 @@ UserRouter.post('/signup',async(req,res)=>{
         username:req.body.username
     });
     if(existinguser){
-        return res.status(411).json({
+        return res.status(409).json({
             message:"User already exists!"
         })
     }
@@ -59,10 +59,10 @@ UserRouter.post('/signup',async(req,res)=>{
     // const token = jwt.sign({
     //     userid
     // },JWT_SECRET);
-
-    console.log("🔑 JWT_SECRET is:", JWT_SECRET);
+    // Checks : console.log(req.body.username);
+    // Checks : console.log("🔑 JWT_SECRET is:", JWT_SECRET);
     const token = jwt.sign({ userid }, JWT_SECRET);
-    console.log("✅ Generated Token:", token);
+    // Checks : console.log("✅ Generated Token:", token);
 
     res.status(200).json({
         message:"User created Successfully",
@@ -81,7 +81,7 @@ UserRouter.post('/signin',async (req,res)=>{
     const body = req.body;
     const {success} = signinbody.safeParse(body);
     if(!success){
-        return res.status(411).json({
+        return res.status(401).json({
             message:"Invalid SignIn details!"
         })
     }
@@ -97,12 +97,14 @@ UserRouter.post('/signin',async (req,res)=>{
         },JWT_SECRET)
 
         res.json({
-            token:token
+            token:token,
+            firstname:user.firstname,
+            lastname:user.lastname
         })
         return;
     }
 
-    res.status(411).json({
+    res.status(409).json({
         message:"Error while logging in"
     })
 })
