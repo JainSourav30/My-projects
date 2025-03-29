@@ -49,10 +49,12 @@ UserRouter.post('/signup',async(req,res)=>{
         password:req.body.password
     })
     // await newuser.save();
-    const userid = newuser._id;
+    const userid = newuser._id; // Mongo Db return ._id and not .id
+
+
 
     await Account.create({
-        userId:userid,
+        userId:userid, //Use the returned user id to create account mapping to same person
         balance: 1 + Math.random()*10000
     })
     
@@ -132,6 +134,7 @@ UserRouter.put('/',authMiddleware,async(req,res)=>{
 
 
 //Get user info
+// Implement debouncing here
 UserRouter.get('/bulk', async(req,res)=>{
     const filter = req.query.filter || "";
     const users = await User.find({

@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Heading } from "./Heading";
-import { InputBox } from "./InputBox";
+import { Heading } from "../components/Heading";
+import { InputBox } from "../components/InputBox";
 import { useState } from "react";
 import axios from 'axios'
 

@@ -3,12 +3,12 @@ import axios from 'axios';
 import {useNavigate } from "react-router-dom";
 
 
-export function Users({Self}){
+export function Users({FirstName,LastName}){
     const [users,setUsers] = useState([]);
     const [filter,setFilter] = useState("");
     const navigate = useNavigate();
-    const First = Self?.firstname || "";
-    const Last = Self?.lastname || "";
+    const First = FirstName || "";
+    const Last = LastName || "";
 
     useEffect(()=>{
         axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)

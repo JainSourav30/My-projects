@@ -1,11 +1,11 @@
 //sign up info color : #c6c8cb
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { Button } from "./Button";
-import { Heading } from "./Heading";
-import { InputBox } from "./InputBox";
-import { SubHeading } from "./SubHeading";
-import { Warning } from "./Warning";
+import { Button } from "../components/Button";
+import { Heading } from "../components/Heading";
+import { InputBox } from "../components/InputBox";
+import { SubHeading } from "../components/SubHeading";
+import { Warning } from "../components/Warning";
 import { Navigate, useNavigate } from 'react-router-dom';
 
 export function Signup(){

@@ -8,3 +8,9 @@ export function InputBox({label,placeholder,onChange}){
         </div>
     )
 }
+
+// build a more visually appearing Input box in place of this
+
+// Use Tailwind and it's transformation features to style it better
+
+//
