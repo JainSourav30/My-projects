@@ -7,6 +7,7 @@ import axios from 'axios'
 export function Payment(){
     const [searchparams] = useSearchParams();
     const [amount,setAmount] =useState(0);
+    const [transactiontype,setTransactiontype] = useState('');
     const [error,setError] =useState('');
     const [success,setSuccess]=useState('');
     const [loading,setLoading]=useState(false);
@@ -22,10 +23,15 @@ export function Payment(){
                 setError("Enter amount to make payment")
                 return;
             }
+            if(transactiontype==='' || !transactiontype){
+                setError("Enter Payment Type")
+                return;
+            }
             setLoading(true);
             await axios.post('http://localhost:3000/api/v1/account/transfer',{
                 amount,
-                to:id
+                to:id,
+                transactiontype
             },{
                 headers: {Authorization : `Bearer ${token}`}
             })
@@ -62,6 +68,11 @@ export function Payment(){
                             setAmount(e.target.value)
                         }
                         }label={'Amount (in Rs)'} placeholder={'Enter the amount'}/>
+                    </div>
+                    <div className="px-3 py-3 font-medium">
+                        <InputBox onChange={(e)=>{
+                            setTransactiontype(e.target.value)
+                        }} label={'Payment Type'} placeholder={'Purpose of Payment'}/>
                     </div>
                     {error && <div className="text-red-500 text-md font-medium mt-2">{error}</div>}
                     {success && <div className="text-blue-500 text-md font-medium mt-2">{success}</div>}

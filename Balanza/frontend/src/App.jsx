@@ -23,8 +23,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={isAuthenticated ? <Navigate to="/dashboard"/>:<LandingPage/>}/>
-            <Route path='/signup' element={<Signup/>}/>
-            <Route path='/signin' element={<Signin/>}/>
+            <Route path='/signup' element={<Signup setIsAuthenticated={setIsAuthenticated}/>}/>
+            <Route path='/signin' element={<Signin setIsAuthenticated={setIsAuthenticated}/>}/>
             <Route path='/dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Dashboard setIsAuthenticated={setIsAuthenticated}></Dashboard></ProtectedRoute>}/>
             <Route path='/payment' element={<Payment/>}/>
           </Routes>

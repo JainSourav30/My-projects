@@ -42,11 +42,20 @@ export function Signin({setIsAuthenticated}){
             if(error.response){
                 setError( error.response.data.message);
             }
-            else{setError("Unexpected error:", error.message);}
+            else{setError(`Unexpected error:", ${error.message}`);}
         }
     }
+
+
     return (
-        <div className="bg-[#31314d] h-screen flex justify-center">
+        <div className="bg-[#31314d] h-screen flex flex-col items-center justify-center">
+            <div className="flex flex-col pb-10 h-max flex justify-center items-center">
+                    <h2 className="text-5xl pb-5 text-[#f5a623] italic font-mono font-bold">
+                        BALANZA
+                    </h2>
+                    <p className="text-3xl text-white font-bold"><span className="text-[#ffb385]">TRACK</span> . <span className="text-[#a18aff]">SAVE</span> . <span className="text-[#ff6f61]">GROW</span></p>
+
+            </div>
             <div className="flex flex-col justify-center">
                 <div className="w-80 h-max bg-white rounded-lg border-3 border-orange-500 shadow-2xl p-2 px-4 text-center">
                     <Heading label={'Sign In'}/>
@@ -65,6 +74,7 @@ export function Signin({setIsAuthenticated}){
                     <Warning label={'Don\'t have an account?'} Buttontext={'Sign up'} to={'/signup'}/>
                 </div>
             </div>
+            
         </div>
     )
 }

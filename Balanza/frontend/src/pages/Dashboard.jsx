@@ -27,23 +27,11 @@ export function Dashboard({setIsAuthenticated}){
             setBalance(response.data.balance)
         })
     },[navigate])
-
-    
-
-    const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('firstname');
-        localStorage.removeItem('lastname');
-        setIsAuthenticated(false);
-        navigate('/');
-    };
-    
-    
         
     return (
         <div className="relative">
-        <div className="bg-white h-screen">
-            <DashBar user={firstname}/>
+        <div className="bg-[#31314d] h-screen">
+            <DashBar setIsAuthenticated={setIsAuthenticated} user={firstname}/>
             <div className="bg-white text-xl font-bold pt-4 pb-6 pl-7">
                 Your Balance <span className="pl-3">{balance}</span>
             </div>

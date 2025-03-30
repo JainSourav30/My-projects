@@ -1,18 +1,32 @@
-export function DashBar({user}){
+import { useState } from "react";
+import { ProfileButton } from "./ProfileButton";
+
+export function DashBar({setIsAuthenticated,user}){
     const initial = user ? user.charAt(0).toUpperCase():"?" ;
+    const [showprofile,setShowprofile]= useState(false);
     return(
         <div className="bg-white py-4 px-2 flex justify-between border border-b-slate-200">
-            <div className="pl-5 text-2xl font-bold">
-                Payments App
+            <div className="pl-10 text-4xl text-[#f5a623] italic font-mono font-bold">
+                BALANZA
             </div>
             <div className="pr-4 text-xl font-medium flex justify between">
                 <div className="pr-4 pt-1">
                     Hello, {user}
                 </div>
-                <div className="bg-slate-200 rounded-full px-4 w-9 h-9 flex items-center justify-center">
-                    {initial}
+                <div className=" relative inline-block ">
+                    <button className="bg-slate-200 border border-[#31314d] cursor-pointer rounded-full px-4 w-9 h-9 flex items-center justify-center" onClick={()=>{
+                        setShowprofile(!showprofile);
+                    }}>
+                        {initial}
+                    </button>
+                    {showprofile && (
+                        <div className="absolute right-0 top-10 mt-2 w-48 bg-white border-2 border-slate-300 rounded-md shadow-xl">
+                            <ProfileButton setIsAuthenticated={setIsAuthenticated}/>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
+
     )
 }

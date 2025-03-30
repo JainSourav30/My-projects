@@ -1,7 +1,9 @@
 import { LandingHeader } from "../components/LandingHeader";
 import {MyAnimation} from '../components/LandingAnimate'
+import { useState } from "react";
 
 export function LandingPage(){
+    
     return(
         <div className="bg-[#31314d] text-white min-h-screen flex flex-col  ">
             <LandingHeader/>
