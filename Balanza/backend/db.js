@@ -28,28 +28,24 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
         minLength : 6
-    }
+    },
+    customtags:[{type:String}]
 })
 
-const accountSchema = new mongoose.Schema({
-    userId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
-    },
-    balance:{
-        type:Number,
-        required:true
-    }}
-);
+// const accountSchema = new mongoose.Schema({
+//     userId:{
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref:'User',
+//         required:true
+//     },
+//     balance:{
+//         type:Number,
+//         required:true
+//     }}
+// );
 
 const TransactionsSchema = new mongoose.Schema({
-    senderId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
-    },
-    recieverId:{
+    UserId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true
@@ -58,26 +54,67 @@ const TransactionsSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
-    TransactionType:{
+    Tag:{
         type:String,
         required:true
-    },
-    CurrentStatus:{
-        type:String,
-        enum:['Pending','Failed','Completed'],
-        default:'Completed'
     },
     CreatedAt:{
         type:Date,
         default:Date.now
     }
+    // SChema to include when transactions on app are functional
+
+        // senderId:{
+        //     type:mongoose.Schema.Types.ObjectId,
+        //     ref:'User',
+        //     required:true
+        // },
+        // recieverId:{
+        //     type:mongoose.Schema.Types.ObjectId,
+        //     ref:'User',
+        //     required:true
+        // },
+        // recieverfirst:{
+        //     type:String,
+        //     required:true
+        // },
+        // recieverlast:{
+        //     type:String,
+        //     required:true
+        // },
+        // CurrentStatus:{
+        //     type:String,
+        //     enum:['Pending','Failed','Completed'],
+        //     default:'Completed'
+        // },
 });
-const Account = mongoose.model('Account',accountSchema);
+const TagSchema = new mongoose.Schema({
+    Tag:{
+        type:String,
+        required:true
+    },
+    TotalSpent:{
+        type:Number,
+        default:0
+    },
+    Goal:{
+        type:Number,
+        default:2000
+    },
+    UserId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true
+    }
+})
+
+//const Account = mongoose.model('Account',accountSchema);
 const User = mongoose.model('User',userSchema);
 const Transactions = mongoose.model('Transactions',TransactionsSchema)
+const TagSpending = mongoose.model('TagSpending',TagSchema)
 
 module.exports = {
     User,
-    Account,
-    Transactions
+    Transactions,
+    TagSpending
 };

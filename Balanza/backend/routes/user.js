@@ -2,7 +2,7 @@ const express = require('express');
 const {JWT_SECRET} = require('../config');
 const jwt = require('jsonwebtoken');
 const zod = require('zod');
-const {User, Account} = require('../db.js')
+const {User, Account, TagSpending} = require('../db.js')
 const {authMiddleware} = require('../middleware');
 
 const UserRouter= express.Router();
@@ -15,6 +15,7 @@ const signupbody = zod.object({
     lastname:zod.string().trim(),
     password:zod.string().trim()
 });
+const tags =['Food','Travel','Shopping','Subscriptions','Utilities','Groceries','Others']
 
 UserRouter.post('/signup',async(req,res)=>{
     const parsedBody = signupbody.safeParse(req.body);
@@ -40,7 +41,7 @@ UserRouter.post('/signup',async(req,res)=>{
             message:"User already exists!"
         })
     }
-
+    
     //Creating a new user
     const newuser = await User.create({
         username:req.body.username,
@@ -50,13 +51,26 @@ UserRouter.post('/signup',async(req,res)=>{
     })
     // await newuser.save();
     const userid = newuser._id; // Mongo Db return ._id and not .id
+    //The function inside map() is async, but map() itself does not handle Promises.
+    // tags.map(async(tag,index)=>{
+    //     await TagSpending.create({
+    //         UserId:userid,
+    //         Tag:tag,
+    //     })
+    // })
+
+    for(const tag of tags){
+        await TagSpending.create({
+                UserId:userid,
+                Tag:tag,
+        })
+    }
 
 
-
-    await Account.create({
-        userId:userid, //Use the returned user id to create account mapping to same person
-        balance: 1 + Math.random()*10000
-    })
+    // await Account.create({
+    //     userId:userid, //Use the returned user id to create account mapping to same person
+    //     balance: 1 + Math.random()*10000
+    // })
     
     // const token = jwt.sign({
     //     userid

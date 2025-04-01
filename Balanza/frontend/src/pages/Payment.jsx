@@ -51,7 +51,15 @@ export function Payment(){
     }
 
     return(
-        <div className="bg-slate-100 h-screen flex justify-center">
+        <div className="bg-[#31314d] h-screen flex flex-col items-center justify-center">
+            <div className="flex flex-col pb-10 h-max flex justify-center items-center">
+                    <h2 className="text-5xl pb-5 text-[#f5a623] italic font-mono font-bold">
+                        BALANZA
+                    </h2>
+                    <p className="text-3xl text-white font-bold"><span className="text-[#ffb385]">TRACK</span> . <span className="text-[#a18aff]">SAVE</span> . <span className="text-[#ff6f61]">GROW</span></p>
+            </div>
+
+            {/*MAIN PAYMENT CARD*/}
             <div className="flex flex-col justify-center">
                 <div className="bg-white h-max w-100 text-center rounded-md px-4 p-2 pb-6 border border-gray-300 shadow-2xl">
                     <Heading label={'Send Money'}/>
