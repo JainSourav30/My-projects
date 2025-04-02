@@ -1,7 +1,9 @@
-const express = require('express');
-const zod = require('zod');
-const { authMiddleware } = require('../middleware');
-const { Transactions, TagSpending } = require('../db');
+import express from 'express';
+import zod from 'zod';
+
+import { authMiddleware } from '../middleware.js';
+import { Transactions, TagSpending } from '../db.js';
+
 const PaymentRouter = express.Router();
 
 PaymentRouter.post('/addpayment',authMiddleware,async(req,res)=>{
@@ -51,7 +53,7 @@ PaymentRouter.get('/all',authMiddleware,async(req,res)=>{
 PaymentRouter.get('/alltags',authMiddleware,async (req,res)=>{
     try{
         //console.log("UserID from Middleware:", req.userid);
-        const Alltags = await TagSpending.find({UserId:req.userid}).select("Tag TotalSpent Goal");
+        const Alltags = await TagSpending.find({UserId:req.userid}).select("Tag TotalSpent Goal History");
         res.json({Alltags});
 
     }catch(error){
@@ -82,4 +84,37 @@ PaymentRouter.get('/tagdata',authMiddleware,async(req,res)=>{
     }
 })
 
-module.exports = PaymentRouter; 
+
+PaymentRouter.get("/monthly-spending", authMiddleware, async (req, res) => {
+    try {
+        const userId = req.userid;  
+
+        const tags = await TagSpending.find({ UserId: userId });
+
+        // Calculate total spent in current month
+        const totalSpent = tags.reduce((acc, tag) => acc + tag.TotalSpent, 0);
+
+        // Get spending history from all tags
+        let spendingHistory = {};
+        tags.forEach(tag => {
+            tag.History.forEach(({ month, year, amount }) => {
+                const key = `${month}-${year}`;
+                spendingHistory[key] = (spendingHistory[key] || 0) + amount;
+            });
+        });
+
+        // Convert to array
+        const historyArray = Object.entries(spendingHistory).map(([key, amount]) => {
+            const [month, year] = key.split("-");
+            return { month, year: Number(year), amount };
+        });
+
+        res.json({ totalSpent, history: historyArray });
+    } catch (error) {
+        console.error("Error fetching monthly spending:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
+export default PaymentRouter;

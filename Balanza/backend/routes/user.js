@@ -1,11 +1,13 @@
-const express = require('express');
-const {JWT_SECRET} = require('../config');
-const jwt = require('jsonwebtoken');
-const zod = require('zod');
-const {User, Account, TagSpending} = require('../db.js')
-const {authMiddleware} = require('../middleware');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import zod from 'zod';
+import moment from 'moment';
 
-const UserRouter= express.Router();
+import { JWT_SECRET } from '../config.js';
+import { User,TagSpending } from '../db.js';
+import { authMiddleware } from '../middleware.js';
+
+const UserRouter = express.Router();
 
 
 // Creating zod object to verify signup body
@@ -63,7 +65,12 @@ UserRouter.post('/signup',async(req,res)=>{
         await TagSpending.create({
                 UserId:userid,
                 Tag:tag,
-        })
+                History:[{
+                    month:moment().format("MMMM"),
+                    year:moment().year(),
+                    amount:0
+                }]
+        });
     }
 
 
@@ -168,4 +175,4 @@ UserRouter.get('/bulk', async(req,res)=>{
     })
 })
 
-module.exports = UserRouter; 
+export default UserRouter;

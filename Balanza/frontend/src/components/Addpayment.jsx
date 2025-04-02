@@ -1,10 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
+import { useTagSpending } from "../context/useTagSpending";
 
-export function Addpayment({setPaymentTag}){
+
+export function Addpayment(){
     const tags = ['Food','Travel','Groceries','Shopping','Subscriptions','Utilities','Others']
     const[amount,setAmount]=useState("");
     const[selectedtag,setSelectedtag]=useState(null);
+    const {addTransaction} = useTagSpending(); 
+
     const toggletag = (tag)=>{
         setSelectedtag(selectedtag===tag ? null : tag);
     }
@@ -24,8 +28,9 @@ export function Addpayment({setPaymentTag}){
             },{
                 headers:{Authorization :`Bearer ${localStorage.getItem('token')}`}
             })
+            addTransaction(selectedtag, parseFloat(amount));
             alert(`Spending of ₹${amount} added Successfully in ${selectedtag}`)
-            setPaymentTag(selectedtag);
+            
             setAmount("");
             setSelectedtag(null)
         }catch(error){
@@ -34,56 +39,63 @@ export function Addpayment({setPaymentTag}){
     }
 
     return (
-        <div className="max-w-md mx-auto bg-white shadow-2xl rounded-2xl py-6 px-10 space-y-4">
-          {/* Title */}
-          <h2 className="text-lg font-bold font-sans italic text-gray-700">MY SPENDING</h2>
-          {/* Amount Input */}
-          <div className="flex flex-row">
-            <input
-                type="string"
-                className="w-full p-2 border border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Enter Amount in ₹"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                />
-          </div>
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[37vh] mx-auto bg-cyan-100 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-10 space-y-4">
+        
+        {/* Title */}
+        <h2 className="text-xl font-bold font-sans italic text-gray-700 text-center ml-2 sm:text-start">
+          MY SPENDING
+        </h2>
     
-            {/* Tags Display */}
+        {/* Amount Input */}
+        <div className="space-y-4">
+          <div className="">
+            <input
+              type="string"
+              className="w-full p-1 xl:p-2  placeholder:text-gray-500 placeholder:italic placeholder:font-semibold border-2 border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter Amount in ₹"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
+      
+          {/* Tags Display */}
           <div className="flex flex-wrap gap-2">
             {tags.length > 0 ? (
-                tags.map((tag, index) => {
+              tags.map((tag, index) => {
                 const isSelected = selectedtag === tag;
-               return (
-                    <button
-                      key={index}
-                      className={`bg-blue-100 cursor-pointer font-semibold text-blue-700 text-sm px-3 py-1 rounded-full  ${
-                    isSelected
-                  ? "bg-orange-300 text-blue-700"
-                  : "bg-blue-100 text-blue-700 hover:bg-blue-300"
-              }`} onClick={()=>toggletag(tag)}>
-                      {tag} 
-                    </button>
-                )})
+                return (
+                  <button
+                    key={index}
+                    className={`bg-blue-100 cursor-pointer font-semibold text-blue-700 text-sm px-3 py-1 rounded-full transition-all ${
+                      isSelected ? "bg-orange-300 text-blue-700" : "bg-blue-100 text-blue-700 hover:bg-blue-300"
+                    }`}
+                    onClick={() => toggletag(tag)}
+                  >
+                    {tag}
+                  </button>
+                );
+              })
             ) : (
               <p className="text-gray-500 text-sm">No tags available</p>
             )}
           </div>
-
-            {/* Buttons */}
-          <div className="flex gap-24 md:gap-2 lg:gap-24">
+      
+          {/* Buttons */}
+          <div className="flex justify-between gap-2 ">
             <button
-              className="bg-green-500 text-white font-sm sm:font-md font-semibold px-4 py-2 rounded-lg hover:bg-green-600 transition"
+              className="bg-green-500 text-white font-sm text-lg md:text-xs xl:text-lg  sm:font-md font-semibold px-4 py-2 rounded-lg hover:bg-green-600 transition"
               onClick={handlePayment}
             >
               Add Payment
             </button>
             <button
-              className="bg-gray-700 text-white px-4 py-2 font-semibold rounded-lg hover:bg-gray-800 transition"
-              onClick={()=>alert("taking to payment history list")}
+              className="bg-gray-700 text-white px-4 py-2 text-lg md:text-xs xl:text-lg font-semibold rounded-lg hover:bg-gray-800 transition"
+              onClick={() => alert("taking to payment history list")}
             >
               View Payments
             </button>
           </div>
         </div>
-      );
+      </div>
+    );
 }

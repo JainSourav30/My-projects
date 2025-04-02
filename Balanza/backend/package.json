@@ -1,5 +1,6 @@
 {
   "name": "backend",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,9 +14,10 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
     "mongoose": "^8.12.1",
+    "node-cron": "^3.0.3",
     "nodemon": "^3.1.9",
-    "zod": "^3.24.2",
-    "type":"module"
+    "zod": "^3.24.2"
   }
 }

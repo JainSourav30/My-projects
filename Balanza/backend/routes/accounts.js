@@ -1,8 +1,10 @@
-const express = require('express');
-const { Account, Transactions, User } = require('../db');
-const { authMiddleware } = require('../middleware');
+import express from 'express';
+import mongoose from 'mongoose';
+
+import { Transactions, User } from '../db.js';
+import { authMiddleware } from '../middleware.js';
+
 const AccountRouter = express.Router();
-const mongoose = require('mongoose'); 
 
 
 // Get account balance
@@ -86,4 +88,4 @@ AccountRouter.get('/debit',authMiddleware,async(req,res)=>{
 })
 
 
-module.exports = AccountRouter;
+export default AccountRouter;

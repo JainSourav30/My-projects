@@ -1,7 +1,10 @@
-const express = require("express");
+import './cronjobs.js'; // Ensure the correct file extension is included
+
+import express from "express";
+import cors from "cors";
+
+import mainRouter from "./routes/index.js";
 const app = express();
-const mainRouter = require('./routes/index');
-const cors = require('cors');
 
 app.use(cors());
 app.use(express.json());

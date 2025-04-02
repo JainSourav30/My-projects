@@ -1,13 +1,12 @@
-const express = require('express')
-const UserRouter = require('./user');
-const AccountRouter = require('./accounts');
-const PaymentRouter = require('./payments');
+import express from 'express';
+import UserRouter from './user.js';
+import AccountRouter from './accounts.js';
+import PaymentRouter from './payments.js';
 
 const router = express.Router();
 
+router.use('/user', UserRouter);
+router.use('/account', AccountRouter);
+router.use('/payments', PaymentRouter);
 
-router.use('/user',UserRouter);
-router.use('/account',AccountRouter);
-router.use('/payments',PaymentRouter);
-
-module.exports = router; 
+export default router;

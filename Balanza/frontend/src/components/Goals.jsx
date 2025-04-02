@@ -1,39 +1,16 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 
-export function Goals({paymenttag}){
-    const[tags,setTags]=useState([]);
-    
-    const token = localStorage.getItem('token');
-    
-    try{
-        useEffect(()=>{
-            try{
-                axios.get('http://localhost:3000/api/v1/payments/alltags',{
-                headers:{Authorization :`Bearer ${token}`}
-                }).then((response)=>{
-                setTags(response.data.Alltags)
-                console.log("recieved all tags");
-                })
-            }catch(e){
-                console.log(e.message);
-            }if(paymenttag){
-                axios.get('http://localhost:3000/api/v1/payments/tagdata?tag='+paymenttag)
-            }
-        },[token,paymenttag])
-    }catch(error){
-        console.log(error.message)
-    }
+import { useTagSpending } from "../context/useTagSpending";
+
+export function Goals(){
+    const {tags} = useTagSpending();
+    console.log(tags);
     const sortedTags = tags.sort((a, b) => b.TotalSpent - a.TotalSpent);
     return (
-        <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
-          <h2 className="text-lg font-bold font-sans italic text-gray-700 mb-4">SPENDING GOALS</h2>
-          <div className="max-h-44 overflow-y-auto px-2">
+        <div className="max-w-md 2xl:max-w-xl mx-auto bg-cyan-100 h-[37vh] shadow-lg shadow-cyan-300 rounded-2xl p-6">
+          <h2 className="text-xl font-bold font-sans italic text-gray-700 mb-4">SPENDING GOALS</h2>
+          <div className="h-[26vh] overflow-y-auto px-2 ">
             {sortedTags.length > 0 ? (
                 sortedTags.map(({ Tag, Goal, TotalSpent }, index) => {
-                    if(TotalSpent === 0){
-                        return;
-                    }
                 const percentage = Math.min((TotalSpent / Goal) * 100, 100); // Ensures it doesn't exceed 100%
                 return (
                     <div key={index} className="mb-2">
@@ -44,10 +21,11 @@ export function Goals({paymenttag}){
                         </span>
                     </div>
                     {/* Progress Bar */}
-                    <div className="w-full bg-gray-200 rounded-full h-6 relative">
+                    <div className="w-full bg-gray-200 rounded-full h-4 relative">
                         <div
-                        className="h-6 bg-blue-500 rounded-full transition-all duration-500"
-                        style={{ width: `${percentage}%` }}
+                        className="h-4 bg-blue-500 rounded-full transition-all duration-500"
+                        style={{ width: `${percentage}%` ,
+                        background: "linear-gradient(to left,rgb(226, 119, 13),rgb(85, 235, 78),rgb(180, 241, 249))"}}
                         ></div>
                         {/* Amount inside the bar */}
                     </div>

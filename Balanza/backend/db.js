@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 mongoose.connect('mongodb+srv://jainsourav194:G3ekqk8Ty4Bj4QyT@cluster0.tymp1.mongodb.net/paytm');
 
@@ -105,7 +105,17 @@ const TagSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true
-    }
+    },
+    History: [
+        {
+            month: String,  
+            year: Number,   
+            amount: {
+                type:Number,
+                default:0
+            }  
+        }
+    ]
 })
 
 //const Account = mongoose.model('Account',accountSchema);
@@ -113,8 +123,4 @@ const User = mongoose.model('User',userSchema);
 const Transactions = mongoose.model('Transactions',TransactionsSchema)
 const TagSpending = mongoose.model('TagSpending',TagSchema)
 
-module.exports = {
-    User,
-    Transactions,
-    TagSpending
-};
+export { User, Transactions, TagSpending };
