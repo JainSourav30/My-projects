@@ -5,10 +5,16 @@ import { Cell,BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer 
 import { useTagSpending } from "../context/useTagSpending";
 export function MonthBarGraph () {
 
+    const randomtags =[{'Tag':"food",'TotalSpent':'0'},{'Tag':'Travel','TotalSpent':'0'},{'Tag':'Groceries','TotalSpent':'0'},{"Tag":'Shopping','TotalSpent':'0'}];
     const {tags} = useTagSpending();
     const filteredTags = tags.filter(item => item.TotalSpent > 0);
-    const sortedTags = filteredTags.sort((a,b)=>b.TotalSpent - a.TotalSpent);
-
+    let sortedTags =[{}];
+    if(filteredTags.length > 0){
+      sortedTags = filteredTags.sort((a,b)=>b.TotalSpent - a.TotalSpent);
+    }
+    else{
+      sortedTags = randomtags;
+    }
     const COLORS = [
         "#0088FE", "#00C49F", "#FFBB28", "#FF8042", 
         "#A933FF", "#FF3366", "#33FF99", "#FF6633", 
@@ -27,7 +33,8 @@ export function MonthBarGraph () {
           {/* Y-Axis (Total Spent) */}
           <YAxis 
           tickFormatter={(value) => `₹${value}`}
-          tick={{ fill: "gray", fontSize: 15, fontWeight: "bold" }} />
+          tick={{ fill: "gray", fontSize: 15, fontWeight: "bold" }}
+          domain={[0, 'auto']} />
           
           {/* Tooltip */}
           <Tooltip formatter={(value) => `₹${value}`} />

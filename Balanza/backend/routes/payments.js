@@ -116,5 +116,32 @@ PaymentRouter.get("/monthly-spending", authMiddleware, async (req, res) => {
     }
 });
 
+PaymentRouter.put("/update-goal", authMiddleware,async (req, res) => {
+    try {
+        const userId = req.userid;
+        const { tag, goal } = req.body;
+
+        if (!userId || !tag || !goal) {
+            return res.status(400).json({ error: "Missing required fields" });
+        }
+
+        // Find and update the tag's goal
+        const updatedTag = await TagSpending.findOneAndUpdate(
+            { UserId: userId, Tag: tag }, 
+            { $set: { Goal: goal } }, 
+            { new: true } // Returns updated document
+        );
+
+        if (!updatedTag) {
+            return res.status(404).json({ error: "Tag not found" });
+        }
+
+        res.status(200).json({ message: "Goal updated successfully", updatedTag });
+    } catch (error) {
+        console.error("Error updating goal:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 
 export default PaymentRouter;

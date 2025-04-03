@@ -52,8 +52,16 @@ export function TagSpendingProvider({ children }) {
         );
         setTotalSpent(prevTotal => prevTotal + amount);
     };
+    const updateTagGoal = (tagName, newGoal) => {
+        setTags(prevTags =>
+            prevTags.map(tag =>
+                tag.Tag === tagName ? { ...tag, Goal: newGoal } : tag
+            )
+        );
+    };
+    
     return (
-        <TagSpendingContext.Provider value={{ tags,totalSpent,spendingHistory, addTransaction }}>
+        <TagSpendingContext.Provider value={{ tags,totalSpent,spendingHistory, addTransaction,updateTagGoal }}>
             {children}
         </TagSpendingContext.Provider>
     );
