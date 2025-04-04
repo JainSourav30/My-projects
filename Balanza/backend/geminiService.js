@@ -3,6 +3,7 @@
 import {TagSpending} from './db.js'
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
+import { addIssueToContext } from 'zod';
 
 dotenv.config();
 

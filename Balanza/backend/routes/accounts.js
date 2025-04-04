@@ -77,9 +77,7 @@ AccountRouter.post('/transfer',authMiddleware,async(req,res)=>{
 //Getting Transaction of a single user
 AccountRouter.get('/debit',authMiddleware,async(req,res)=>{
     try{
-        const sender = req.userid;
-        console.log(sender);
-        const transactionarray = await Transactions.find({senderId:req.userid});
+        const transactionarray = await Transactions.find({UserId:req.userid}).select("Amount Tag CreatedAt");
         res.json({transactionarray});
     }catch(error){
         console.error('No transactions available');

@@ -20,7 +20,7 @@ export function DashBar({setIsAuthenticated,user}){
                         {initial}
                     </button>
                     {showprofile && (
-                        <div className="absolute right-0 top-10 mt-2 w-48 bg-white border-2 border-slate-300 rounded-md shadow-xl">
+                        <div className="absolute right-0 top-10 mt-2 w-35 bg-gray-200 border-2 border-slate-300 rounded-md shadow-xl">
                             <ProfileButton setIsAuthenticated={setIsAuthenticated}/>
                         </div>
                     )}

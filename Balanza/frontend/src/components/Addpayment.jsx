@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
 import { useTagSpending } from "../context/useTagSpending";
-
+import {ShowPayments} from "./ShowPayments";
 
 export function Addpayment(){
     const tags = ['Food','Travel','Groceries','Shopping','Subscriptions','Utilities','Others']
     const[amount,setAmount]=useState("");
     const[selectedtag,setSelectedtag]=useState(null);
     const {addTransaction} = useTagSpending(); 
+    const [showTransactions,setShowTransactions]=useState(false);
+    const [transactions,setTransactions]=useState([]);
 
     const toggletag = (tag)=>{
         setSelectedtag(selectedtag===tag ? null : tag);
@@ -16,9 +18,10 @@ export function Addpayment(){
     const handlePayment = async()=>{
         //alert('inside handle payment function');
         const isValidNumber = (value) => /^\d+$/.test(value);
-        if((!isValidNumber(amount)|| amount==="")||(selectedtag === null)){
+        if((!isValidNumber(amount)|| amount==="" || amount <= 0)||(selectedtag === null)){
             alert('enter valid Amount details & Select a Tag')
             setAmount("");
+            return;
         }
 
         try{
@@ -30,7 +33,6 @@ export function Addpayment(){
             })
             addTransaction(selectedtag, parseFloat(amount));
             alert(`Spending of ₹${amount} added Successfully in ${selectedtag}`)
-            
             setAmount("");
             setSelectedtag(null)
         }catch(error){
@@ -38,26 +40,43 @@ export function Addpayment(){
         }
     }
 
+    const viewPayment = async()=>{
+      try{
+        await axios.get("http://localhost:3000/api/v1/account/debit",{
+          headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}
+        }).then((response)=>{
+          setTransactions(response.data.transactionarray);
+        })
+      }catch(e){
+        console.error("facing issue in showing Payment history!")
+      }
+      setTimeout(()=>{setShowTransactions(true)},200)
+
+    }
+69
     return (
+      <div>
+
+      {showTransactions ? (
+  <div className="">
+    <ShowPayments transactions={transactions} setshowTransactions={setShowTransactions}/>
+  </div>
+): (
       <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[37vh] mx-auto bg-cyan-100 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-10 space-y-4">
-        
-        {/* Title */}
-        <h2 className="text-xl font-bold font-sans italic text-gray-700 text-center ml-2 sm:text-start">
-          MY SPENDING
-        </h2>
-    
-        {/* Amount Input */}
         <div className="space-y-4">
-          <div className="">
+          <h2 className="text-xl font-bold font-sans italic text-gray-700 text-center ml-2 sm:text-start">
+            MY SPENDING
+          </h2>
+          <div>
             <input
               type="string"
-              className="w-full p-1 xl:p-2  placeholder:text-gray-500 placeholder:italic placeholder:font-semibold border-2 border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-1 xl:p-2 placeholder:text-gray-500 placeholder:italic placeholder:font-semibold border-2 border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter Amount in ₹"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-      
+
           {/* Tags Display */}
           <div className="flex flex-wrap gap-2">
             {tags.length > 0 ? (
@@ -79,8 +98,6 @@ export function Addpayment(){
               <p className="text-gray-500 text-sm">No tags available</p>
             )}
           </div>
-      
-          {/* Buttons */}
           <div className="flex justify-between gap-2 ">
             <button
               className="bg-green-500 text-white font-sm text-lg md:text-xs xl:text-lg  sm:font-md font-semibold px-4 py-2 rounded-lg hover:bg-green-600 transition"
@@ -90,12 +107,14 @@ export function Addpayment(){
             </button>
             <button
               className="bg-gray-700 text-white px-4 py-2 text-lg md:text-xs xl:text-lg font-semibold rounded-lg hover:bg-gray-800 transition"
-              onClick={() => alert("taking to payment history list")}
+              onClick={viewPayment}
             >
               View Payments
             </button>
           </div>
         </div>
       </div>
-    );
+    )}    
+        </div>
+    )
 }

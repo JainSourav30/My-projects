@@ -11,8 +11,7 @@ export function ProfileButton({setIsAuthenticated}){
     }
     return(
         <div className="flex flex-col items-center justify-center">
-            <button className="text-md cursor-pointer hover:bg-slate-100 py-3 border border-slate-200 w-full">My Profile</button>
-            <button className="text-md cursor-pointer hover:bg-slate-100 py-3 border border-slate-200 w-full" onClick={Handlelogout}>Logout</button>
+            <button className="text-md cursor-pointer hover:bg-slate-100 py-2 border border-slate-200 w-full" onClick={Handlelogout}>Logout</button>
         </div>
     )
 }
