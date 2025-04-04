@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 import { number } from 'zod';
+import dotenv from 'dotenv';
+dotenv.config();
 
-mongoose.connect('mongodb+srv://jainsourav194:G3ekqk8Ty4Bj4QyT@cluster0.tymp1.mongodb.net/paytm');
+const mongoURI = process.env.MONGODB_URL;
+
+mongoose.connect(mongoURI);
 
 const userSchema = new mongoose.Schema({
     username:{
