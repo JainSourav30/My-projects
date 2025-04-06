@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import { Transactions, User } from '../db.js';
+import { TagSpending, Transactions, User } from '../db.js';
 import { authMiddleware } from '../middleware.js';
 
 const AccountRouter = express.Router();
@@ -77,13 +77,42 @@ AccountRouter.post('/transfer',authMiddleware,async(req,res)=>{
 //Getting Transaction of a single user
 AccountRouter.get('/debit',authMiddleware,async(req,res)=>{
     try{
-        const transactionarray = await Transactions.find({UserId:req.userid}).select("Amount Tag CreatedAt");
+        const transactionarray = await Transactions.find({UserId:req.userid}).select("Amount Tag CreatedAt _id");
         res.json({transactionarray});
     }catch(error){
         console.error('No transactions available');
         res.status(500).json({ message: "facing some error", error: error.message });
     }
 })
+
+AccountRouter.delete('/:id', authMiddleware,async (req, res) => {
+    const transactionId = req.params.id;
+    const userId = req.userid; //setting this from auth middleware
+    const {TagName,amount} = req.body;
+    try {
+        // 1. Delete the transaction
+        const deletedTransaction = await Transactions.findOneAndDelete({
+          _id: transactionId,
+          UserId: userId
+        });
+    
+        if (!deletedTransaction) {
+          return res.status(404).json({ message: 'Transaction not found or not authorized' });
+        }
+    
+        // 2. Decrement the TotalSpent from TagSpending
+        await TagSpending.findOneAndUpdate(
+          { UserId: userId, Tag: TagName },
+          { $inc: { TotalSpent: -amount } }
+        );
+    
+        res.status(200).json({ message: 'Transaction deleted and amount updated', deletedTransaction });
+    
+      } catch (error) {
+        console.error('Error in deleting transaction or updating tag spending:', error);
+        res.status(500).json({ message: 'Server error' });
+      }
+  });
 
 
 export default AccountRouter;

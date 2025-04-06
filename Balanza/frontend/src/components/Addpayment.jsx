@@ -9,7 +9,6 @@ export function Addpayment(){
     const[selectedtag,setSelectedtag]=useState(null);
     const {addTransaction} = useTagSpending(); 
     const [showTransactions,setShowTransactions]=useState(false);
-    const [transactions,setTransactions]=useState([]);
 
     const toggletag = (tag)=>{
         setSelectedtag(selectedtag===tag ? null : tag);
@@ -25,13 +24,14 @@ export function Addpayment(){
         }
 
         try{
-            await axios.post('http://localhost:3000/api/v1/payments/addpayment',{
+            const response = await axios.post('http://localhost:3000/api/v1/payments/addpayment',{
                 amount:amount,
                 tag:selectedtag
             },{
                 headers:{Authorization :`Bearer ${localStorage.getItem('token')}`}
             })
-            addTransaction(selectedtag, parseFloat(amount));
+            const newtransaction = response.data;
+            addTransaction(newtransaction);
             alert(`Spending of ₹${amount} added Successfully in ${selectedtag}`)
             setAmount("");
             setSelectedtag(null)
@@ -41,25 +41,14 @@ export function Addpayment(){
     }
 
     const viewPayment = async()=>{
-      try{
-        await axios.get("http://localhost:3000/api/v1/account/debit",{
-          headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}
-        }).then((response)=>{
-          setTransactions(response.data.transactionarray);
-        })
-      }catch(e){
-        console.error("facing issue in showing Payment history!")
-      }
       setTimeout(()=>{setShowTransactions(true)},200)
-
     }
-69
     return (
       <div>
 
       {showTransactions ? (
   <div className="">
-    <ShowPayments transactions={transactions} setshowTransactions={setShowTransactions}/>
+    <ShowPayments setshowTransactions={setShowTransactions}/>
   </div>
 ): (
       <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[37vh] mx-auto bg-cyan-100 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-10 space-y-4">

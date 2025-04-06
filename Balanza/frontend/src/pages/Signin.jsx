@@ -7,6 +7,7 @@ import { SubHeading } from "../components/SubHeading";
 import { Warning } from "../components/Warning";
 import axios from 'axios';
 import { useState } from "react";
+import { useTagSpending } from "../context/useTagSpending";
 
 export function Signin({setIsAuthenticated}){
 
@@ -14,6 +15,7 @@ export function Signin({setIsAuthenticated}){
     const [username,setUsername] = useState('');
     const [password,setPassword] = useState('');
     const [error,setError] = useState(null);
+    const {login} = useTagSpending();
 
     const handleSignIn = async () => {
         if(!username || !password){
@@ -32,11 +34,14 @@ export function Signin({setIsAuthenticated}){
                 lastname:response.data.lastname 
             };
             //Find a better way to retrieve or store user info in order to access it anywhere on site
-            localStorage.setItem('token',response.data.token)
+            const token = response.data.token;
+            login(token);
             localStorage.setItem('firstname',User.firstname)
             localStorage.setItem('lastname',User.lastname)
             setIsAuthenticated(true);
-            navigate('/dashboard')
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 500);
 
         }catch(error){
             if(error.response){

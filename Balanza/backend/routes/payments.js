@@ -18,10 +18,7 @@ PaymentRouter.post('/addpayment',authMiddleware,async(req,res)=>{
         },
         {$inc:{TotalSpent : req.body.amount}}
         );
-
-        console.log(updatedSpending);
-        res.status(200).json({
-            message:"Payment addedSuccessfully"})
+        res.status(200).json(newtransaction);
     }catch(error){
         res.status(403).json({message:"Couldn't get the payment for this tag"});
     }

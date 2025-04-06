@@ -1,6 +1,30 @@
 import { X } from "lucide-react";
-export function ShowPayments({ transactions,setshowTransactions }) {
-    const LatesttransactionsonTop = transactions.reverse();
+import { Trash } from "lucide-react";
+import { useState } from "react"; 
+import { useTagSpending } from "../context/useTagSpending";
+import axios from "axios";
+ 
+export function ShowPayments({setshowTransactions }) {
+    const {transactions,deleteTransaction} = useTagSpending();
+    
+    const HandleDelete = async (transactionid,TagName,amount) => {
+        try{
+        await axios.delete(`http://localhost:3000/api/v1/account/${transactionid}`,{
+                data:{
+                    TagName,
+                    amount,
+                },
+                headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}
+            })
+            deleteTransaction(TagName,parseFloat(amount),transactionid);
+            alert(`Deleted payment of ₹${amount} from category ${TagName}`);
+        }catch(error){
+            console.error(error);
+        }
+    };
+    const LatesttransactionsonTop = [...transactions].reverse();
+
+        
     return (
       <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[37vh] mx-auto bg-cyan-100 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-2 space-y-1">
         <div className="flex flex-row justify-between">
@@ -11,7 +35,7 @@ export function ShowPayments({ transactions,setshowTransactions }) {
         </div>
         
 
-        <div className="overflow-y-auto h-[24vh]">
+        <div className="overflow-y-auto  h-[24vh]">
             {LatesttransactionsonTop.length === 0 ? (
             <p className="text-gray-500 text-xl font-semibold italic text-center">No transactions available</p>
             ) : (
@@ -34,8 +58,15 @@ export function ShowPayments({ transactions,setshowTransactions }) {
                         <td className="border border-gray-300 px-4 py-2 text-lg font-semibold text-green-600">
                         ₹{transaction.Amount}
                         </td>
-                        <td className="border border-gray-300 font-semibold px-4 text-md py-2 text-gray-500 ">
-                        {new Date(transaction.CreatedAt).toLocaleString()}
+                        <td className="border border-gray-300 flex justify-between items-center sm:gap-11 font-semibold pl-4 pr-2 text-md py-2 text-gray-500 ">
+                            <div className="">
+                                {new Date(transaction.CreatedAt).toLocaleString()}
+                            </div>
+                            <div>
+                                <button className="text-red-700" onClick={()=>{
+                                    HandleDelete(transaction._id,transaction.Tag,transaction.Amount);
+                                }}><Trash size={23}/></button>
+                            </div>
                         </td>
                     </tr>
                     ))}

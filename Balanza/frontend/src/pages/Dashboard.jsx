@@ -38,8 +38,8 @@ export function Dashboard({setIsAuthenticated}){
             <DashBar setIsAuthenticated={setIsAuthenticated} user={firstname}/>
             <div className="flex-1  space-y-5 lg:space-y-5">
                 <div className=" grid grid-cols-1 md:grid-cols-3 space-y-2 md:space-y-0 gap-10 mx-10 py-2 ">
-                    <div><Addpayment /></div>
-                    <div>
+                    <div><Addpayment/></div>
+                    <div className="">
                         <Goals />
                     </div>
                     <div className="">

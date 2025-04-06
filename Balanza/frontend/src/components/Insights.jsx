@@ -31,9 +31,9 @@ export default function InsightsDisplay() {
     
     return (
         <div className="max-w-md 2xl:max-w-xl mx-auto bg-cyan-100 h-[37vh] shadow-lg shadow-cyan-300 rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center text-center sm:text-start gap-2 mb-3">
                 <Sparkles size={20} className="text-yellow-500" />
-                <h2 className="text-xl font-bold font-sans italic text-gray-700">
+                <h2 className="text-xl font-bold font-sans  italic text-gray-700">
                     <span className="font-bold text-xl text-[#00AEEF]">SMART</span> Insights
                 </h2>
             </div>
@@ -41,7 +41,7 @@ export default function InsightsDisplay() {
             {loading ? (
                 <p className="text-gray-500 text-xl italic font-bold pl-5">Our AI is still crunching the numbers... Check back soon for smart spending insights!</p>
             ) : (
-                <div className="h-[26vh] overflow-y-auto">
+                <div className="h-[26vh] pr-2 overflow-y-auto">
                     {insights.length > 0 ? (
                         <ul className="list-disc pl-5 space-y-3">
                             {insights.map((insight, index) => {

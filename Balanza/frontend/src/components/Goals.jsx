@@ -43,7 +43,7 @@ export function Goals(){
     console.log(tags);
     const sortedTags = tags.sort((a, b) => b.TotalSpent - a.TotalSpent);
     return (
-        <div className="max-w-md 2xl:max-w-xl mx-auto bg-cyan-100 h-[37vh] shadow-lg shadow-cyan-300 rounded-2xl p-6">
+        <div className="max-w-md 2xl:max-w-xl mx-auto bg-cyan-100 h-[37vh] shadow-lg shadow-cyan-300 rounded-2xl p-6 text-center sm:text-start">
           <h2 className="text-xl font-bold font-sans italic text-gray-700 mb-4">SPENDING GOALS</h2>
           <div className="h-[26vh] overflow-y-auto px-2 ">
             {sortedTags.length > 0 ? (

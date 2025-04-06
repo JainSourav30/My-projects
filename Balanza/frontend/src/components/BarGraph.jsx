@@ -33,7 +33,7 @@ export function MonthlyHistory() {
     return (
         <div className="bg-cyan-100 h-[46vh] shadow-lg shadow-cyan-300 rounded-2xl p-6">
             <div className="flex flex-row gap-4">
-            <h2 className="text-sm sm:text-xl font-bold italic text-gray-700 ml-17 mb-3">MONTHLY PERFORMANCE</h2>
+            <h2 className="text-sm sm:text-xl font-bold italic text-gray-700 ml-3 sm:ml-17 mb-3">MONTHLY PERFORMANCE</h2>
             <h2 className="text-sm sm:text-lg font-bold italic text-gray-700 ml-17 mb-3">Total Spent this Month: <span className="text-red-500">₹{totalSpent}</span></h2>
             </div>
             <ResponsiveContainer width="100%" height="90%">
