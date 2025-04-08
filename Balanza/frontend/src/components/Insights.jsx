@@ -30,35 +30,40 @@ export default function InsightsDisplay() {
     if (error) return <p className="text-red-500">{error}</p>;
     
     return (
-        <div className="max-w-md 2xl:max-w-xl mx-auto bg-cyan-100 h-[37vh] shadow-lg shadow-cyan-300 rounded-2xl p-6">
-            <div className="flex items-center text-center sm:text-start gap-2 mb-3">
-                <Sparkles size={20} className="text-yellow-500" />
-                <h2 className="text-xl font-bold font-sans  italic text-gray-700">
-                    <span className="font-bold text-xl text-[#00AEEF]">SMART</span> Insights
-                </h2>
-            </div>
-    
-            {loading ? (
-                <p className="text-gray-500 text-xl italic font-bold pl-5">Our AI is still crunching the numbers... Check back soon for smart spending insights!</p>
-            ) : (
-                <div className="h-[26vh] pr-2 overflow-y-auto">
-                    {insights.length > 0 ? (
-                        <ul className="list-disc pl-5 space-y-3">
-                            {insights.map((insight, index) => {
-                                const [heading, ...content] = insight.split(":");
-                                return (
-                                    <li key={index} className="text-gray-700">
-                                        <span className="font-bold">{heading.toUpperCase().trim()}:</span>
-                                        {content.length > 0 && ` ${content.join(":").trim()}`}
-                                    </li>
-                                );
-                            })}
-                        </ul>
+        <div className="w-full h-full bg-gradient-to-r from-gray-300 to-gray-100 rounded-lg shadow-lg border-none">
+            <div className="p-4 space-y-8">
+                <div className="flex items-center gap-2">
+                    <Sparkles size={22} className="text-yellow-500" />
+                    <h2 className="text-2xl font-bold font-sans italic text-gray-600">
+                        <span className="font-bold text-blue-600">SMART</span> Insights
+                    </h2>
+                </div>
+                <div className="h-0.5 bg-gradient-to-r from-gray-600 to-gray-300 rounded-full mb-3"></div>
+        
+                <div className="h-[250px] overflow-y-auto scrollbar-hide pr-2 mb-9">
+                    {loading ? (
+                        <p className="text-gray-600 text-xl italic font-semibold pl-2">Our AI is still crunching the numbers... Check back soon for smart spending insights!</p>
                     ) : (
-                        <p className="text-gray-500 text-xl font-bold pl-5">AI is ready, but your wallet seems untouched! Log some spending to unlock insights.</p>
+                        <>
+                            {insights.length > 0 ? (
+                                <ul className="list-disc pl-5 space-y-4">
+                                    {insights.map((insight, index) => {
+                                        const [heading, ...content] = insight.split(":");
+                                        return (
+                                            <li key={index} className="text-gray-700 text-lg">
+                                                <span className="font-bold">{heading.toUpperCase().trim()}:</span>
+                                                {content.length > 0 && ` ${content.join(":").trim()}`}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            ) : (
+                                <p className="text-gray-600 text-lg font-semibold pl-2">AI is ready, but your wallet seems untouched! Log some spending to unlock insights.</p>
+                            )}
+                        </>
                     )}
                 </div>
-            )}
+            </div>
         </div>
     );
 }

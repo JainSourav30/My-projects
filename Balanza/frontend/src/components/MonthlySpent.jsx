@@ -4,7 +4,7 @@ import { Cell,BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer 
 
 import { useTagSpending } from "../context/useTagSpending";
 export function MonthBarGraph () {
-
+    const {totalSpent}= useTagSpending();
     const randomtags =[{'Tag':"food",'TotalSpent':'0'},{'Tag':'Travel','TotalSpent':'0'},{'Tag':'Groceries','TotalSpent':'0'},{"Tag":'Shopping','TotalSpent':'0'}];
     const {tags} = useTagSpending();
     const filteredTags = tags.filter(item => item.TotalSpent > 0);
@@ -22,8 +22,10 @@ export function MonthBarGraph () {
       ];
 
   return (
-    <div className="bg-cyan-100 h-[46vh] shadow-lg shadow-cyan-300 rounded-2xl p-6">
-      <h2 className="text-xl font-bold italic text-gray-700 ml-17 mb-3">THIS MONTH</h2>
+    <div className="bg-gradient-to-r from-gray-100 to-gray-300 h-[50vh] shadow-lg shadow-cyan-300 rounded-2xl pt-6 px-0 md:px-6 ">
+      <div className="w-full text-center">
+        <h2 className="text-sm sm:text-lg font-bold italic text-gray-700 ml-17 mb-3">Total Spent this Month: <span className="text-red-500">₹{totalSpent}</span></h2>
+      </div>
       <ResponsiveContainer width="100%" height="90%">
         <BarChart data={sortedTags} margin={{ top: 5, right: 10, left: 10, bottom:5 }}>
           

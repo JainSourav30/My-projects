@@ -26,16 +26,16 @@ export function ShowPayments({setshowTransactions }) {
 
         
     return (
-      <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[37vh] mx-auto bg-cyan-100 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-2 space-y-1">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[53vh] mx-auto bg-gradient-to-r from-slate-50 to-orange-300 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-2 space-y-1">
         <div className="flex flex-row justify-between">
-        <h2 className="text-xl font-bold font-sans italic text-gray-700 mb-4 pl-4 mt-2 text-center">TRANSACTION HISTORY</h2>
-        <button className="bg-slate-200 h-10 w-10 rounded-full mr-3 flex items-center justify-center" onClick={()=>{
+        <h2 className="text-xl font-bold font-sans italic text-orange-600 mb-4 pl-4 mt-2 text-center">TRANSACTION HISTORY</h2>
+        <button className="bg-slate-200 h-10 w-10 rounded-full mr-3 flex hover:scale-125 items-center justify-center" onClick={()=>{
             setTimeout(()=>{setshowTransactions(false)},200);
         }}><X size={25}/></button>
         </div>
-        
+        <div className="h-0.5 bg-gradient-to-r from-gray-600 to-gray-300 rounded-full mb-4"></div>
 
-        <div className="overflow-y-auto  h-[24vh]">
+        <div className="overflow-y-auto  h-[calc(100%-80px)">
             {LatesttransactionsonTop.length === 0 ? (
             <p className="text-gray-500 text-xl font-semibold italic text-center">No transactions available</p>
             ) : (
@@ -63,7 +63,7 @@ export function ShowPayments({setshowTransactions }) {
                                 {new Date(transaction.CreatedAt).toLocaleString()}
                             </div>
                             <div>
-                                <button className="text-red-700" onClick={()=>{
+                                <button className="text-red-700 hover:scale-125" onClick={()=>{
                                     HandleDelete(transaction._id,transaction.Tag,transaction.Amount);
                                 }}><Trash size={23}/></button>
                             </div>

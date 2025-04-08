@@ -5,7 +5,7 @@ import { useState } from "react";
 export function LandingPage(){
     
     return(
-        <div className="bg-[#31314d] text-white min-h-screen flex flex-col  ">
+        <div className="bg-gradient-to-r from-purple-800 to-gray-600 text-white min-h-screen flex flex-col  ">
             <LandingHeader/>
             <div className="max-w-3xl mx-auto flex-1 flex flex-col items-center justify-center gap-10 pt-10 lg:pt-12 px-10 w-full">
                 <h2 className="text-2xl lg:text-7xl font-bold text-center"><span className="font-bold text-[#ffb385]">Smarter Spending</span> Starts Here</h2>

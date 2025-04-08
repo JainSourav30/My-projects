@@ -15,7 +15,6 @@ export function Addpayment(){
     }
 
     const handlePayment = async()=>{
-        //alert('inside handle payment function');
         const isValidNumber = (value) => /^\d+$/.test(value);
         if((!isValidNumber(amount)|| amount==="" || amount <= 0)||(selectedtag === null)){
             alert('enter valid Amount details & Select a Tag')
@@ -45,65 +44,68 @@ export function Addpayment(){
     }
     return (
       <div>
-
       {showTransactions ? (
-  <div className="">
-    <ShowPayments setshowTransactions={setShowTransactions}/>
-  </div>
-): (
-      <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[37vh] mx-auto bg-cyan-100 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-10 space-y-4">
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold font-sans italic text-gray-700 text-center ml-2 sm:text-start">
-            MY SPENDING
-          </h2>
-          <div>
-            <input
-              type="string"
-              className="w-full p-1 xl:p-2 placeholder:text-gray-500 placeholder:italic placeholder:font-semibold border-2 border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Enter Amount in ₹"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </div>
-
-          {/* Tags Display */}
-          <div className="flex flex-wrap gap-2">
-            {tags.length > 0 ? (
-              tags.map((tag, index) => {
-                const isSelected = selectedtag === tag;
-                return (
-                  <button
-                    key={index}
-                    className={`bg-blue-100 cursor-pointer font-semibold text-blue-700 text-sm px-3 py-1 rounded-full transition-all ${
-                      isSelected ? "bg-orange-300 text-blue-700" : "bg-blue-100 text-blue-700 hover:bg-blue-300"
-                    }`}
-                    onClick={() => toggletag(tag)}
-                  >
-                    {tag}
-                  </button>
-                );
-              })
-            ) : (
-              <p className="text-gray-500 text-sm">No tags available</p>
-            )}
-          </div>
-          <div className="flex justify-between gap-2 ">
-            <button
-              className="bg-green-500 text-white font-sm text-lg md:text-xs xl:text-lg  sm:font-md font-semibold px-4 py-2 rounded-lg hover:bg-green-600 transition"
-              onClick={handlePayment}
-            >
-              Add Payment
-            </button>
-            <button
-              className="bg-gray-700 text-white px-4 py-2 text-lg md:text-xs xl:text-lg font-semibold rounded-lg hover:bg-gray-800 transition"
-              onClick={viewPayment}
-            >
-              View Payments
-            </button>
+        <div className="">
+          <ShowPayments setshowTransactions={setShowTransactions}/>
+        </div>
+      ) : (
+        <div className="w-full h-full bg-gradient-to-r from-gray-300 to-gray-100 rounded-lg shadow-md border-none flex flex-col">
+          <div className="p-5 space-y-9 flex-grow">
+            <h2 className="text-2xl font-bold font-sans italic text-orange-600">ADD NEW EXPENSE</h2>
+            <div className="h-0.5 bg-gradient-to-r from-gray-600 to-gray-300 rounded-full "></div>
+            
+            <div className="flex flex-col md:flex-row gap-5 flex-grow">
+              {/* Left side - Input and Add Payment button */}
+              <div className="md:w-1/2 space-y-7">
+                <input
+                  type="string"
+                  className="w-full p-4 text-lg bg-white text-slate-800 placeholder:text-slate-400 placeholder:italic placeholder:font-semibold border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent focus:text-xl transition-all duration-200"
+                  placeholder="Enter Amount in ₹"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+                <button
+                  className="w-full bg-blue-500 text-white font-semibold text-lg px-4 py-3 rounded-md hover:bg-blue-600 transition"
+                  onClick={handlePayment}
+                >
+                  Add Payment
+                </button>
+                
+                <button
+                  className="w-full bg-slate-700 text-white px-5 py-3 text-lg font-semibold rounded-md hover:bg-slate-800 transition"
+                  onClick={viewPayment}
+                >
+                  View Payments
+                </button>
+              </div>
+              
+              {/* Right side - Tags */}
+              <div className="md:w-1/2">
+                <div className="flex flex-wrap gap-3">
+                  {tags.length > 0 ? (
+                    tags.map((tag, index) => {
+                      const isSelected = selectedtag === tag;
+                      return (
+                        <button
+                          key={index}
+                          className={`cursor-pointer font-semibold text-base px-4 py-2 rounded-full transition-all ${
+                            isSelected ? "bg-blue-500 text-white" : "bg-white text-slate-700 hover:bg-slate-300 border border-slate-300"
+                          }`}
+                          onClick={() => toggletag(tag)}
+                        >
+                          {tag}
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <p className="text-slate-500 text-base">No tags available</p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      )}    
       </div>
-    )}    
-        </div>
     )
 }

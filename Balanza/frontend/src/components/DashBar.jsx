@@ -5,7 +5,7 @@ export function DashBar({setIsAuthenticated,user}){
     const initial = user ? user.charAt(0).toUpperCase():"?" ;
     const [showprofile,setShowprofile]= useState(false);
     return(
-        <div className="bg-[#31314d] py-4 px-2 flex justify-between border border-b-slate-200">
+        <div className="bg-gradient-to-r from-gray-800 to-gray-600 py-4 px-2 flex justify-between border border-b-slate-200">
             <div className="pl-10 text-4xl text-[#f5a623] italic font-mono font-bold">
                 BALANZA
             </div>
@@ -14,7 +14,7 @@ export function DashBar({setIsAuthenticated,user}){
                     Hello, {user}
                 </div>
                 <div className=" relative inline-block ">
-                    <button className="bg-slate-200 border border-[#31314d] cursor-pointer rounded-full px-4 w-9 h-9 flex items-center justify-center ring-2 italic ring-orange-600" onClick={()=>{
+                    <button className="bg-slate-200 border border-[#31314d] cursor-pointer rounded-full px-4 w-9 h-9 flex items-center justify-center ring-2 italic " onClick={()=>{
                         setShowprofile(!showprofile);
                     }}>
                         {initial}
