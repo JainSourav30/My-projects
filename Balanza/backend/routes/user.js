@@ -14,11 +14,15 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 // Creating zod object to verify signup body
 const signupbody = zod.object({
-    username:zod.string().trim().email(),
-    firstname:zod.string().trim(),
-    lastname:zod.string().trim(),
-    password:zod.string().trim()
-});
+    username: zod.string().trim().email({ message: "Invalid email format" }),
+    firstname: zod.string().trim().min(2, "First name must be at least 2 characters"),
+    lastname: zod.string().trim().min(2, "Last name must be at least 2 characters"),
+    password: zod
+      .string()
+      .trim()
+      .min(6, "Password must be at least 6 characters long")
+      .max(100, "Password too long"),
+  });
 const tags =['Food','Travel','Shopping','Subscriptions','Utilities','Groceries','Others']
 
 UserRouter.post('/signup',async(req,res)=>{
