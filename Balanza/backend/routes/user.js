@@ -3,11 +3,13 @@ import jwt from 'jsonwebtoken';
 import zod from 'zod';
 import moment from 'moment';
 
-import { JWT_SECRET } from '../config.js';
+import dotenv from 'dotenv';
+dotenv.config();
 import { User,TagSpending } from '../db.js';
 import { authMiddleware } from '../middleware.js';
 
 const UserRouter = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
 // Creating zod object to verify signup body
