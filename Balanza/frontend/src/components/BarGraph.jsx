@@ -1,9 +1,21 @@
 import { useTagSpending } from "../context/useTagSpending";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,LabelList } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList } from "recharts";
 import moment from "moment";
+import { useState, useEffect } from "react";
 
 export function MonthlyHistory() {
     const { totalSpent, spendingHistory } = useTagSpending();
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    // Add responsive window size detection
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Get current month & year
     const currentMonth = moment().format("MMMM");
@@ -31,15 +43,40 @@ export function MonthlyHistory() {
     }));
 
     return (
-        <div className="bg-gradient-to-r from-slate-50 to-slate-300 h-[50vh] shadow-lg shadow-cyan-300 rounded-2xl px-2 md:px-6 pt-11">
+        <div className="bg-gradient-to-r from-slate-50 to-slate-300 h-[50vh] shadow-lg shadow-cyan-300 rounded-2xl px-2 md:px-6 pt-6 md:pt-11">
             <div className="flex flex-row gap-4">
             </div>
             <ResponsiveContainer width="100%" height="90%">
-                <BarChart data={updatedHistory} margin={{ top: 5, right: 10, left: 5, bottom:10 }}>
-                    <LabelList dataKey="amount" position="top" fill="black" fontSize={12} fontWeight="bold" />
-                    <XAxis dataKey="month" tick={{ fill: "gray", fontSize: 15, fontWeight: "bold" }} />
-                    <YAxis tickFormatter={(value) => `₹${value}`}
-                        tick={{ fill: "gray", fontSize: 15, fontWeight: "bold" }} />
+                <BarChart 
+                    data={updatedHistory} 
+                    margin={{ top: 5, right: 5, left: 0, bottom: 5 }}
+                    barSize={isMobile ? 20 : 30}
+                >
+                    <LabelList 
+                        dataKey="amount" 
+                        position="top" 
+                        fill="black" 
+                        fontSize={isMobile ? 10 : 12} 
+                        fontWeight="bold" 
+                    />
+                    <XAxis 
+                        dataKey="month" 
+                        tick={{ 
+                            fill: "gray", 
+                            fontSize: isMobile ? 15 : 18, 
+                            fontWeight: "bold" 
+                        }}
+                        tickFormatter={(value) => isMobile ? value.substring(0, 3) : value}
+                    />
+                    <YAxis 
+                        tickFormatter={(value) => `₹${value}`}
+                        tick={{ 
+                            fill: "gray", 
+                            fontSize: isMobile ? 12 : 15, 
+                            fontWeight: "bold" 
+                        }}
+                        width={isMobile ? 50 : 60}
+                    />
                     <Tooltip formatter={(value) => `₹${value}`}/>
                     <Bar dataKey="amount" fill="rgb(59, 130, 246)" radius={[5, 5, 0, 0]} />
                 </BarChart>

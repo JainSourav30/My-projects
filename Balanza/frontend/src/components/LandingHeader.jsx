@@ -9,12 +9,12 @@ export function LandingHeader(){
                 BALANZA
             </div>
             <div className="pr-1 sm:pr-10 md:pr-15 lg:pr-60 py-5 flex  w-full gap-3 justify-end ">
-                <div><button className="w-full text-white text-sm sm:text-lg font-bold bg-[#31314d] px-5 py-2 rounded-full hover:bg-gray-900 cursor-pointer" onClick={()=>{
+                <div><button className="w-full text-white text-sm sm:text-lg font-bold bg-[#31314d] px-3 md:px-5 py-2 rounded-3xl hover:bg-gray-900 cursor-pointer" onClick={()=>{
                     setTimeout(()=>{navigate('/signin')},500)
                 }}>Sign In
                 </button>
                 </div>
-                <div><button className="w-full text-[#f5a623] text-sm sm:text-lg font-bold bg-[#31314d] px-5 py-2 rounded-full hover:bg-gray-900 cursor-pointer" onClick={()=>{
+                <div><button className="w-full text-[#f5a623] text-sm sm:text-lg font-bold bg-[#31314d] px-3 md:px-5 py-2 rounded-full hover:bg-gray-900 cursor-pointer" onClick={()=>{
                     setTimeout(()=>{navigate('/signup')},500)
                 }}>Sign Up
                 </button>
