@@ -66,7 +66,7 @@ export function Signup({setIsAuthenticated}){
     }
 
     return (
-        <div className='bg-[#31314d] h-full flex flex-col items-center justify-center'>
+        <div className='bg-[#31314d] h-screen flex flex-col items-center justify-center'>
             <div className="flex flex-col pb-10 h-max flex justify-center items-center">
                     <h2 className="text-3xl md:text-5xl pt-5 pb-3 md:pb-5 text-[#f5a623] italic font-mono font-bold">
                         BALANZA
