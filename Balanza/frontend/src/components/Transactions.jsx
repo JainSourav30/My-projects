@@ -1,4 +1,5 @@
-import axios from "axios";
+
+import api from "../api/axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +13,7 @@ export function ShowTransactions(){
             return;
         }
         try{
-            axios.get('http://localhost:3000/api/v1/account/debit',{
+            api.get('/api/v1/account/debit',{
                 headers:{Authorization:`Bearer ${token}`}
             }).then((response)=>{
                 setDebitarray(response.data.transactionarray);

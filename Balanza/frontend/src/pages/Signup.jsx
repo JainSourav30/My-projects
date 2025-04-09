@@ -1,5 +1,6 @@
 //sign up info color : #c6c8cb
-import axios from 'axios';
+
+import api from "../api/axios";
 import { useEffect, useState } from "react";
 import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
@@ -17,7 +18,7 @@ export function Signup(){
 
     const handleSignup = async () => {
         try{
-            const response = await axios.post("http://localhost:3000/api/v1/user/signup",{
+            const response = await api.post("/api/v1/user/signup",{
                username,
                firstname,
                lastname,

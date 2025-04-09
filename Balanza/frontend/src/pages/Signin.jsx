@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
-
+import api from "../api/axios";
 import { Heading } from "../components/Heading";
 import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
 import { Warning } from "../components/Warning";
-import axios from 'axios';
 import { useState } from "react";
 import { useTagSpending } from "../context/useTagSpending";
 
@@ -23,7 +22,7 @@ export function Signin({setIsAuthenticated}){
             return;
         }
         try{
-            const response = await axios.post('http://localhost:3000/api/v1/user/signin',
+            const response = await api.post('/api/v1/user/signin',
                 {
                     username,
                     password

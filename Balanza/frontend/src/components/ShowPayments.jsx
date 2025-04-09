@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { Trash } from "lucide-react";
-import { useState } from "react"; 
+import api from "../api/axios"; 
 import { useTagSpending } from "../context/useTagSpending";
 import axios from "axios";
  
@@ -9,7 +9,7 @@ export function ShowPayments({setshowTransactions }) {
     
     const HandleDelete = async (transactionid,TagName,amount) => {
         try{
-        await axios.delete(`http://localhost:3000/api/v1/account/${transactionid}`,{
+        await api.delete(`/api/v1/account/${transactionid}`,{
                 data:{
                     TagName,
                     amount,

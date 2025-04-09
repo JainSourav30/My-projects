@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
+
 import { Sparkles } from "lucide-react";  // AI Icon (✨)
 
 export default function InsightsDisplay() {
@@ -11,8 +12,8 @@ export default function InsightsDisplay() {
         async function fetchInsights() {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.post(
-                    "http://localhost:3000/api/v1/ai/analyze-spending",
+                const response = await api.post(
+                    "/api/v1/ai/analyze-spending",
                     {}, 
                     { headers: { Authorization: `Bearer ${token}` } }
                 );

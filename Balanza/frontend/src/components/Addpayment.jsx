@@ -1,4 +1,5 @@
-import axios from "axios";
+
+import api from "../api/axios";
 import { useState } from "react";
 import { useTagSpending } from "../context/useTagSpending";
 import {ShowPayments} from "./ShowPayments";
@@ -23,7 +24,7 @@ export function Addpayment(){
         }
 
         try{
-            const response = await axios.post('http://localhost:3000/api/v1/payments/addpayment',{
+            const response = await api.post('/api/v1/payments/addpayment',{
                 amount:amount,
                 tag:selectedtag
             },{

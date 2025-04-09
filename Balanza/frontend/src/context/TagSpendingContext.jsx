@@ -1,4 +1,5 @@
-import axios from "axios";
+
+import api from "../api/axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import moment from 'moment';
 
@@ -19,7 +20,7 @@ export function TagSpendingProvider({ children }){
     useEffect(() => {
             async function fetchData() {
                 try {
-                    const response = await axios.get("http://localhost:3000/api/v1/payments/alltags", {
+                    const response = await api.get("/api/v1/payments/alltags", {
                         headers: { Authorization: `Bearer ${token}` }
                     });
     
@@ -48,7 +49,7 @@ export function TagSpendingProvider({ children }){
                 }
 
                 try{
-                    await axios.get("http://localhost:3000/api/v1/account/debit",{
+                    await api.get("/api/v1/account/debit",{
                         headers:{Authorization:`Bearer ${token}`}
                       }).then((response)=>{
                         setTransactions(response.data.transactionarray);

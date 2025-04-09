@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useTagSpending } from "../context/useTagSpending";
-import axios from "axios";
+import api from "../api/axios";
 import { Pencil } from "lucide-react";
 
 export function Goals(){
@@ -22,8 +22,8 @@ export function Goals(){
         }
         console.log('hi before sending api call');
         try {
-            await axios.put(
-                "http://localhost:3000/api/v1/payments/update-goal",
+            await api.put(
+                "/api/v1/payments/update-goal",
                 { tag, goal },  // Sending only tag and goal in the body
                 {
                     headers: {

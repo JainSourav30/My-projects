@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Heading } from "../components/Heading";
 import { InputBox } from "../components/InputBox";
 import { useState } from "react";
-import axios from 'axios'
+import api from "../api/axios";
 
 export function Payment(){
     const [searchparams] = useSearchParams();
@@ -28,7 +28,7 @@ export function Payment(){
                 return;
             }
             setLoading(true);
-            await axios.post('http://localhost:3000/api/v1/account/transfer',{
+            await api.post('/api/v1/account/transfer',{
                 amount,
                 to:id,
                 transactiontype
