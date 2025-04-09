@@ -8,13 +8,16 @@ import mainRouter from "./routes/index.js";
 const app = express();
 dotenv.config();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: true
+  }));
 app.use(express.json());
 
 app.use('/api/v1',mainRouter);
 app.use("/api/v1/ai",aiRouter);
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
-
