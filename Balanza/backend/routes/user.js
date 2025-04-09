@@ -134,31 +134,49 @@ UserRouter.post('/signin',async (req,res)=>{
     }
 
     res.status(409).json({
-        message:"Error while logging in"
+        message:"Enter correct Email and password!"
     })
 })
 
 // Information update zod object
 const updateinfo = zod.object({
-    firstname:zod.string().optional(),
-    lastname:zod.string().optional(),
-    password:zod.string().optional()
+    password: zod
+    .string()
+    .trim()
+    .min(6, "Password must be at least 6 characters long")
+    .max(100, "Password too long")
 })
 
-//Update user info
-UserRouter.put('/',authMiddleware,async(req,res)=>{
-    const {success} = updateinfo.safeParse(req.body)
-    if(!success){
+// Update user info - reset password
+UserRouter.post('/reset-password', async(req, res) => {
+    const { username, newPassword } = req.body;
+    
+    // Validate the new password
+    const passwordValidation = updateinfo.safeParse({ password: newPassword });
+    if (!passwordValidation.success) {
         return res.status(411).json({
-            message: "Error while updating information"
+            message: "Password must be at least 6 characters long"
         });
     }
-    await User.updateOne({_id:req.userid},req.body);
+    
+    // Check if user exists
+    const user = await User.findOne({ username });
+    if (!user) {
+        return res.status(404).json({
+            message: "User not found"
+        });
+    }
+    
+    // Update the password
+    await User.updateOne(
+        { username }, 
+        { password: newPassword }
+    );
+    
     res.status(200).json({
-        message:"Updated Successfully!"
-    })
-})
-
+        message: "Password updated successfully!"
+    });
+});
 
 //Get user info
 // Implement debouncing here
