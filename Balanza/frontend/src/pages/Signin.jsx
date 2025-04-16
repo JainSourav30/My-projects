@@ -44,7 +44,7 @@ export function Signin({setIsAuthenticated}){
             setIsAuthenticated(true);
             setTimeout(() => {
                 navigate('/dashboard');
-            }, 500);
+            }, 100);
 
         }catch(error){
             if(error.response){

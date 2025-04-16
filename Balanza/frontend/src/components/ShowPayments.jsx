@@ -2,10 +2,32 @@ import { X } from "lucide-react";
 import { Trash } from "lucide-react";
 import api from "../api/axios"; 
 import { useTagSpending } from "../context/useTagSpending";
+import { useEffect } from "react";
 import axios from "axios";
  
 export function ShowPayments({setshowTransactions }) {
     const {transactions,deleteTransaction} = useTagSpending();
+    
+    // Add effect to handle browser back button
+    useEffect(() => {
+        // Push a new state to history when component mounts
+        window.history.pushState(null, "", window.location.pathname);
+        
+        // Event handler for popstate (back button)
+        const handlePopState = () => {
+            setshowTransactions(false);
+            // Push state again to maintain the current URL
+            window.history.pushState(null, "", window.location.pathname);
+        };
+        
+        // Add event listener
+        window.addEventListener('popstate', handlePopState);
+        
+        // Clean up
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [setshowTransactions]);
     
     const HandleDelete = async (transactionid,TagName,amount) => {
         try{
@@ -26,7 +48,7 @@ export function ShowPayments({setshowTransactions }) {
 
         
     return (
-      <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[53vh] mx-auto bg-gradient-to-r from-slate-50 to-orange-300 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-2 space-y-1">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl h-[50vh] mx-auto bg-gradient-to-r from-slate-50 to-orange-300 shadow-lg shadow-cyan-300 rounded-2xl py-6 px-2 space-y-1">
         <div className="flex flex-row justify-between">
         <h2 className="text-xl font-bold font-sans italic text-orange-600 mb-4 pl-4 mt-2 text-center">TRANSACTION HISTORY</h2>
         <button className="bg-slate-200 h-10 w-10 rounded-full mr-3 flex hover:scale-125 items-center justify-center" onClick={()=>{

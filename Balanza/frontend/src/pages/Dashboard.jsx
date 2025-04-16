@@ -48,15 +48,15 @@ export function Dashboard({setIsAuthenticated}){
                     </div>
                     
                     {/* Card 4: Charts with Toggle */}
-                    <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                        <div className="bg-gradient-to-r from-gray-800 to-gray-600 px-4 py-2 text-white font-bold flex justify-between items-center">
-                            <span>Spending Analytics</span>
+                    <div className="bg-gradient-to-r from-gray-100 to-gray-300 rounded-xl shadow-md overflow-hidden">
+                        <div className="bg-gradient-to-r from-gray-100 to-gray-300 px-4 py-2 font-bold flex justify-between items-center">
+                            <span className="text-orange-600 text-xl italic">Spending Analytics</span>
                             <div className="flex space-x-2">
                                 <button 
                                     className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
                                         activeChart === 'thisMonth' 
                                             ? 'bg-blue-500 text-white' 
-                                            : 'bg-gray-200 text-blue-800 hover:bg-gray-400'
+                                            : 'bg-white text-blue-800 hover:bg-gray-400'
                                     }`}
                                     onClick={() => setActiveChart('thisMonth')}
                                 >
@@ -66,7 +66,7 @@ export function Dashboard({setIsAuthenticated}){
                                     className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
                                         activeChart === 'allMonths' 
                                             ? 'bg-blue-500 text-white' 
-                                            : 'bg-gray-200 text-blue-800 hover:bg-gray-400'
+                                            : 'bg-white text-blue-800 hover:bg-gray-400'
                                     }`}
                                     onClick={() => setActiveChart('allMonths')}
                                 >
